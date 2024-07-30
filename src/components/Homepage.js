@@ -7,6 +7,7 @@ import deleteLogo from "../assests/delete.png";
 import TodoBox from "./TodoBox";
 import DummyData from "./DummyData";
 import EditTodo from "./EditTodo";
+import { toast } from "react-toastify";
 const Homepage = () => {
   const [openAddtodo, setOpenAddtodo] = useState(false);
   const [isAddopen, setIsAddOpen] = useState(false);
@@ -29,6 +30,11 @@ const Homepage = () => {
         newData.splice(i, 1);
         localStorage.setItem("todoData", JSON.stringify(newData));
         window.dispatchEvent(new Event("storage"));
+        toast.success("Task deleted Successfully!", {
+          position: "top-right",
+          theme: "colored",
+          autoClose: 1000,
+        });
         break;
       }
     }
@@ -39,6 +45,7 @@ const Homepage = () => {
       const newData = JSON.parse(localStorage.getItem("todoData"));
       setIsAddOpen(false);
       setOpenAddtodo(false);
+      setIsEditOpen(false);
       setData(newData);
     };
     window.addEventListener("storage", addData);
@@ -95,20 +102,38 @@ const Homepage = () => {
                       key={index}
                     />
                     <div className="flex w-[25%] justify-end ">
-                      <img
-                        src={editLogo}
-                        alt=""
-                        className="h-[60%]  my-auto   cursor-pointer"
-                        onClick={() => {
-                          if (editId !== index) {
-                            setIsEditOpen(true);
-                            setEditId(index);
-                          } else {
-                            setIsEditOpen(false);
-                            setEditId(null);
-                          }
-                        }}
-                      />
+                      {isEditOpen && editId === index ? (
+                        <img
+                          src={crossSymbol}
+                          alt=""
+                          className="h-[60%]  my-auto   cursor-pointer"
+                          onClick={() => {
+                            if (editId !== index) {
+                              setIsEditOpen(true);
+                              setEditId(index);
+                            } else {
+                              setIsEditOpen(false);
+                              setEditId(null);
+                            }
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src={editLogo}
+                          alt=""
+                          className="h-[60%]  my-auto   cursor-pointer"
+                          onClick={() => {
+                            if (editId !== index) {
+                              setIsEditOpen(true);
+                              setEditId(index);
+                            } else {
+                              setIsEditOpen(false);
+                              setEditId(null);
+                            }
+                          }}
+                        />
+                      )}
+
                       <img
                         src={deleteLogo}
                         alt=""

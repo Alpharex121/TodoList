@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const EditTodo = ({ title, description, index }) => {
   // eslint-disable-next-line
@@ -13,6 +14,11 @@ const EditTodo = ({ title, description, index }) => {
     data[index].description = newDescription;
     localStorage.setItem("todoData", JSON.stringify(data));
     window.dispatchEvent(new Event("storage"));
+    toast.success("Task edited successfully!", {
+      position: "top-right",
+      theme: "colored",
+      autoClose: 1000,
+    });
   };
   return (
     <>

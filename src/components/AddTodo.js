@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const AddTodo = () => {
   // eslint-disable-next-line
@@ -16,6 +17,11 @@ const AddTodo = () => {
     stored.push(todoData);
     localStorage.setItem("todoData", JSON.stringify(stored));
     window.dispatchEvent(new Event("storage"));
+    toast.success("New task added!", {
+      position: "top-right",
+      theme: "colored",
+      autoClose: 1000,
+    });
   };
 
   return (
