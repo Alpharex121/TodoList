@@ -6,9 +6,13 @@ import editLogo from "../assests/edit.png";
 import deleteLogo from "../assests/delete.png";
 import TodoBox from "./TodoBox";
 import DummyData from "./DummyData";
+import EditTodo from "./EditTodo";
 const Homepage = () => {
   const [openAddtodo, setOpenAddtodo] = useState(false);
   const [isAddopen, setIsAddOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editId, setEditId] = useState();
+
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem("todoData"))
   );
@@ -21,7 +25,7 @@ const Homepage = () => {
   const handleDelete = (index) => {
     var newData = JSON.parse(localStorage.getItem("todoData"));
     for (var i = 0; i < index || i < data.length; i++) {
-      if (i == index) {
+      if (i === index) {
         newData.splice(i, 1);
         localStorage.setItem("todoData", JSON.stringify(newData));
         window.dispatchEvent(new Event("storage"));
@@ -75,7 +79,7 @@ const Homepage = () => {
           )}
         </div>
         {openAddtodo && <AddTodo />}
-        <div className="w-1/2 h-full mt-10 flex flex-col items-center  rounded-lg">
+        <div className="w-1/2 h-full mt-10 flex flex-col items-center  rounded-lg relative">
           <DummyData />
           {data &&
             data.map((todos, index) => {
@@ -83,7 +87,7 @@ const Homepage = () => {
                 <>
                   <li
                     key={index}
-                    className="h-[13vh] m-5 bg-white rounded-lg w-[100%] p-3 flex"
+                    className="h-[13vh] m-5  bg-white rounded-lg w-[100%] p-3 flex"
                   >
                     <TodoBox
                       title={todos.title}
@@ -95,6 +99,15 @@ const Homepage = () => {
                         src={editLogo}
                         alt=""
                         className="h-[60%]  my-auto   cursor-pointer"
+                        onClick={() => {
+                          if (editId !== index) {
+                            setIsEditOpen(true);
+                            setEditId(index);
+                          } else {
+                            setIsEditOpen(false);
+                            setEditId(null);
+                          }
+                        }}
                       />
                       <img
                         src={deleteLogo}
@@ -104,6 +117,15 @@ const Homepage = () => {
                       />
                     </div>
                   </li>
+                  {isEditOpen && editId === index && (
+                    <li key={index} className="float-right ml-auto ">
+                      <EditTodo
+                        title={data[index].title}
+                        description={data[index].description}
+                        index={index}
+                      />
+                    </li>
+                  )}
                 </>
               );
             })}
