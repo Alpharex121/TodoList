@@ -6,6 +6,9 @@ const AddTodo = () => {
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem("todoData"))
   );
+
+  //Logic for add new Task in a todo List.
+  // Extracting title and description from form -> retrieving data from local storage -> update data state with localStorage data -> push new form data to the array and push it back to the localStorage -> Triggering "storage event to update data in main component."
   const handleOnSubmit = (e) => {
     e.preventDefault();
     const title = e.target.title.value;
@@ -17,6 +20,8 @@ const AddTodo = () => {
     stored.push(todoData);
     localStorage.setItem("todoData", JSON.stringify(stored));
     window.dispatchEvent(new Event("storage"));
+
+    //Success toast message
     toast.success("New task added!", {
       position: "top-right",
       theme: "colored",
@@ -24,10 +29,11 @@ const AddTodo = () => {
     });
   };
 
+  // Add Task box UI.
   return (
     <>
       <form
-        className="text-black mt-5 h-1/2 bg-gray-100 w-[25vw] rounded-lg flex flex-col "
+        className=" text-black mt-5 h-1/2 bg-gray-200 w-[70vw] sm:w-[25vw] rounded-lg flex flex-col "
         onSubmit={handleOnSubmit}
       >
         <h1 className="font-bold mt-[2vh] mb-[1vh] text-2xl underline mx-auto text-amber-800">

@@ -6,6 +6,8 @@ const EditTodo = ({ title, description, index }) => {
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem("todoData"))
   );
+
+  //Logic to handle edit of task. Taking the new values and updating the old array data with the new data entered. After Updating, pushing it to local storage and triggering a "storage" event to update the data in main component.
   const handleOnSubmit = (e) => {
     e.preventDefault();
     const newTitle = e.target.title.value;
@@ -14,16 +16,20 @@ const EditTodo = ({ title, description, index }) => {
     data[index].description = newDescription;
     localStorage.setItem("todoData", JSON.stringify(data));
     window.dispatchEvent(new Event("storage"));
+
+    //Toaster Notification
     toast.success("Task edited successfully!", {
       position: "top-right",
       theme: "colored",
       autoClose: 1000,
     });
   };
+
+  //Edit Box frontend.
   return (
     <>
       <form
-        className="text-black  h-1/2 bg-white w-[25vw] rounded-lg border border-black-300 mt-1 flex flex-col "
+        className="text-black  h-1/2 bg-gray-200 w-[60vw] sm:w-[25vw] rounded-lg border border-black-300 mt-1 flex flex-col "
         onSubmit={handleOnSubmit}
       >
         <h1 className="font-bold mt-[2vh] mb-[1vh] text-2xl underline mx-auto text-amber-800">
