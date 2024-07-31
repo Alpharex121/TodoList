@@ -13,10 +13,23 @@ const AddTodo = () => {
     e.preventDefault();
     const title = e.target.title.value;
     const description = e.target.description.value;
+    const currentdate = new Date();
     const todoData = {
       title: title,
       description: description,
       complete: false,
+      lastUpdated:
+        currentdate.getDate() +
+        "/" +
+        (currentdate.getMonth() + 1) +
+        "/" +
+        currentdate.getFullYear() +
+        " @  " +
+        currentdate.getHours() +
+        ":" +
+        currentdate.getMinutes() +
+        ":" +
+        currentdate.getSeconds(),
     };
     var stored = JSON.parse(localStorage.getItem("todoData"));
     setData(stored);
@@ -37,7 +50,7 @@ const AddTodo = () => {
   return (
     <>
       <form
-        className=" text-black mt-5 h-1/2 bg-gray-200 w-[70vw] sm:w-[25vw] rounded-lg flex flex-col "
+        className=" text-black mt-5 h-1/2 bg-gray-200 w-[70vw] sm:w-[60vw] md:w-[40vw] lg:w-[20vw]  rounded-lg flex flex-col "
         onSubmit={handleOnSubmit}
       >
         <h1 className="font-bold mt-[2vh] mb-[1vh] text-2xl underline mx-auto text-amber-800">

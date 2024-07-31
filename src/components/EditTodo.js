@@ -12,8 +12,23 @@ const EditTodo = ({ title, description, index }) => {
     e.preventDefault();
     const newTitle = e.target.title.value;
     const newDescription = e.target.description.value;
+    const currentdate = new Date();
+    const updatedDate =
+      currentdate.getDate() +
+      "/" +
+      (currentdate.getMonth() + 1) +
+      "/" +
+      currentdate.getFullYear() +
+      " @  " +
+      currentdate.getHours() +
+      ":" +
+      currentdate.getMinutes() +
+      ":" +
+      currentdate.getSeconds();
     data[index].title = newTitle;
     data[index].description = newDescription;
+    data[index].lastUpdated = updatedDate;
+
     localStorage.setItem("todoData", JSON.stringify(data));
     window.dispatchEvent(new Event("storage"));
 
@@ -29,7 +44,7 @@ const EditTodo = ({ title, description, index }) => {
   return (
     <>
       <form
-        className="text-black  h-1/2 bg-gray-200 w-[60vw] sm:w-[25vw] rounded-lg border border-black-300 mt-1 flex flex-col "
+        className="text-black  h-1/2 bg-gray-200 w-[60vw] sm:w-[60vw] md:w-[40vw] lg:w-[20vw] rounded-lg border border-black-300 mt-1 flex flex-col "
         onSubmit={handleOnSubmit}
       >
         <h1 className="font-bold mt-[2vh] mb-[1vh] text-2xl underline mx-auto text-amber-800">

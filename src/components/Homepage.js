@@ -45,6 +45,7 @@ const Homepage = () => {
     }
   };
 
+  //This function will handle the search button. Get data from localStorage -> if search bar is empty -> set data to LocalStorage Data -> else -> filter the data from localStorage data and use setData state to update it.
   const handleSearch = (e) => {
     e.preventDefault();
     const searchTodo = e.target.searchTodo.value;
@@ -53,6 +54,7 @@ const Homepage = () => {
       origionalData && setData(origionalData);
       setShowDummyData(true);
     } else {
+      //FILTERING FROM ORIGIONAL DATA
       const searchResult = origionalData.filter((dataa) =>
         dataa.title.toLowerCase().includes(searchTodo.toLowerCase())
       );
@@ -62,7 +64,7 @@ const Homepage = () => {
   };
 
   useEffect(() => {
-    //Added EventListener which listen to the event "storage" which is used by useEffect to continuously monitor change in localStorage and update the data.
+    //Added EventListener which listen to the event "storage" which is used by useEffect to continuously monitor change in localStorage and update the data when "storage" event is triggered.
     const addData = () => {
       const newData = JSON.parse(localStorage.getItem("todoData"));
       setIsAddOpen(false);
@@ -84,7 +86,13 @@ const Homepage = () => {
         id="main-bg"
         className=" h-full w-full flex  flex-col items-center  "
       >
-        <h1 className="font-bold mt-[10vh] text-5xl text-white">
+        <h1
+          className="font-bold mt-[10vh] text-5xl text-white cursor-pointer"
+          onClick={() => {
+            setData(JSON.parse(localStorage.getItem("todoData")));
+            setShowDummyData(true);
+          }}
+        >
           TODO <span className="text-blue-500">LIST </span>
         </h1>
         <div
@@ -113,15 +121,15 @@ const Homepage = () => {
         <form
           action=""
           onSubmit={handleSearch}
-          className="bg-red-100 w-1/3 mt-8 rounded-lg flex justify-between "
+          className=" w-[80%] sm:w-[50%]  md:w-[40%] mt-8 rounded-lg flex justify-between "
         >
-          <div className=" w-full bg-green-100  flex justify-between rounded-lg">
+          <div className=" w-full  flex justify-between rounded-lg   ">
             <input
               type="text"
               name="searchTodo"
-              className=" bg-white rounded-l-lg p-3 w-[75%] focus:outline-none"
+              className=" bg-white rounded-l-lg p-3 w-[75%]   focus:outline-none"
             />
-            <button className=" w-[25%] font-bold text-xl bg-blue-300 p-3 rounded-r-lg">
+            <button className="  w-[30%] sm:w-[25%]  font-bold text-xl bg-blue-300 p-3 rounded-r-lg">
               Search
             </button>
           </div>
@@ -129,22 +137,23 @@ const Homepage = () => {
         <div className=" w-[80%] sm:w-[80vw] md:w-50%  md:w-[50vw] h-full mt-10 flex flex-col items-center  rounded-lg relative">
           {/* Hardcoded Dummy Data */}
           {showDummyData && <DummyData />}
-          {/* Mapping the data */}
+          {/* Not showing dummy data if user has searched*/}
           {!data && !showDummyData && (
             <h1 className="font-bold text-3xl">NO RESULT FOUND!</h1>
           )}
+          {/* Mapping the data */}
           {data &&
             data.map((todos, index) => {
               return (
-                <li key={index} className="w-full list-none bg m-2 sm:m-2">
-                  <div className="sm:h-[13vh]  mb-5  bg-white  rounded-lg w-[100%]  p-3 flex">
+                <li key={index} className="w-full list-none   m-2 sm:m-2">
+                  <div className=" h-[30%] sm:h-[13vh]  mb-5  bg-white   rounded-lg w-[100%]  p-3 flex">
                     <TodoBox
                       title={todos.title}
                       decsription={todos.description}
                       index={index}
                       isCompleted={todos.isComplete}
                     />
-                    <div className="flex w-[30%]  justify-end ">
+                    <div className="flex w-[30%]   justify-end ">
                       {/* Logic to show cross image or edit image. if edit box is open  -> cross image -> else edit image */}
                       {isEditOpen && editId === index ? (
                         <img
