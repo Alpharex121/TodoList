@@ -13,7 +13,11 @@ const AddTodo = () => {
     e.preventDefault();
     const title = e.target.title.value;
     const description = e.target.description.value;
-    const todoData = { title: title, description: description };
+    const todoData = {
+      title: title,
+      description: description,
+      complete: false,
+    };
     var stored = JSON.parse(localStorage.getItem("todoData"));
     setData(stored);
     if (!stored) stored = [];

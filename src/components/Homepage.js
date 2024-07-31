@@ -141,6 +141,8 @@ const Homepage = () => {
                     <TodoBox
                       title={todos.title}
                       decsription={todos.description}
+                      index={index}
+                      isCompleted={todos.isComplete}
                     />
                     <div className="flex w-[30%]  justify-end ">
                       {/* Logic to show cross image or edit image. if edit box is open  -> cross image -> else edit image */}
